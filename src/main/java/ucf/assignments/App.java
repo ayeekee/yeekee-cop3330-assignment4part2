@@ -16,14 +16,15 @@ import java.util.ArrayList;
 
 // class defines objects for a to-do list
 class tdItem{
-    // string variable for the item description
-    // string variable for the date
+    String itemDesc;
+    String date;
+    Boolean mark;
 
     // create to-do list fields and set equal to each other
     tdItem(String itemDesc, String date, Boolean mark){
-        // set itemDesc to each other
-        // set date to each other
-        // set status to false automatically
+        this.itemDesc = itemDesc;
+        this.date = date;
+        this.mark = false;
     }
 }
 
@@ -50,6 +51,7 @@ public class App extends Application {
         // call addList function, pass in string title
 
         // create object variable list for tdList class
+
         // create arraylist object of type tdItem
 
         launch(); // launch gui

@@ -9,19 +9,6 @@ class GuiControllerTest {
     }
 
     @org.junit.jupiter.api.Test
-    void delList() {
-        // run method
-        // check if file was successfully deleted w/ assert true and make sure it returns false
-    }
-
-    @org.junit.jupiter.api.Test
-    void renameList() {
-        // create test file
-        // run method
-        // check that file name matches input string (string used to rename)
-    }
-
-    @org.junit.jupiter.api.Test
     void addToExistList() {
         // check num of elements in list and store in int variable
         // run method
@@ -89,19 +76,7 @@ class GuiControllerTest {
     }
 
     @org.junit.jupiter.api.Test
-    void saveAllItems() {
-        // run method
-        // check that file exists and is not empty
-    }
-
-    @org.junit.jupiter.api.Test
     void loadList() {
-        // run method, set equal to array list object
-        // check that arraylist is not empty
-    }
-
-    @org.junit.jupiter.api.Test
-    void loadManyLists() {
         // run method, set equal to array list object
         // check that arraylist is not empty
     }

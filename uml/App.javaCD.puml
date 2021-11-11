@@ -17,8 +17,6 @@ package ucf.assignments{
 
     +Class GuiController{
         +{static}addList(String title)
-        +{static}delList(File file)
-        +{static}renameList(File file, String renameTo)
         +{static}addToExistList(File file, ArrayList<tdItem> tdList)
         +{static}delFromExistList(File file, ArrayList<tdItem> tdList)
         +{static}editListDesc(tdItem item, ArrayList<tdItem> tdlist)
@@ -28,9 +26,7 @@ package ucf.assignments{
         +{static}displayIncomplete(File file, ArrayList<tdItem> tdList)
         +{static}displayComplete(File file, ArrayList<tdItem> tdList)
         +{static}saveListItems(File file, ArrayList<tdItem> tdList)
-        +{static}saveAllItems(ArrayList<ArrayList<tdItem>> allLists)
         +{static}loadList()
-        +{static}loadManyLists()
     }
 }
 @enduml

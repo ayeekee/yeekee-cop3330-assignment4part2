@@ -26,22 +26,6 @@ public class GuiController {
         return true; // return if files was created successfully
     }
 
-    // method deletes directory of specified list
-    public static boolean delList(File file){
-        // use file.delete() to delete file
-        // if it was deleted successfully, return true
-        // else, return false
-        return false; // return whether the file was deleted via boolean
-    }
-
-    // method renames a directory using the String
-    public static File renameList(File file, String renameTo){
-        File newFile = null;
-        // create new file object from default path and renameTo string
-        // use .renameTo() to rename the file
-        return newFile; // return the newFile
-    }
-
     // method writes given itemDesc to the existing file specified
     public static ArrayList<tdItem> addToExistList(File file, ArrayList<tdItem> tdList){
         // open file specified
@@ -130,18 +114,6 @@ public class GuiController {
         return file; // return the file to be saved
     }
 
-    // method writes data from arraylist of tditem arraylists to a file stored in a path the user specifies
-    public static File saveAllItems(ArrayList<ArrayList<tdItem>> allLists){
-        File file = null;
-        // create a new file object
-        // set file equal to a path in hard drive
-        // open file to write to
-        // print title of first list
-        // use for loop to write all the info in allLists
-        // check when arraylist<tdItem> ends and print title of next list to be displayed
-        return file; // return the file to be saved
-    }
-
     // method opens file (to do list) user specifies and stores info in arraylist
     public static ArrayList<tdItem> loadList(){
         ArrayList<tdItem> arrList = null;
@@ -152,19 +124,5 @@ public class GuiController {
         // use loop and arraylist to store all the tditems made
         // display items to user
         return arrList; // return ArrayList<tdItem>
-    }
-
-    // method opens multiple to do lists the user asks to view
-    public static ArrayList<ArrayList<tdItem>> loadManyLists(){
-        ArrayList<ArrayList<tdItem>> listOfLists = null;
-        // ask user which list they'd like to load
-        // use a file chooser
-        // create int variable count to keep track of how many lists they want to open
-        // create ArrayList<ArrayList<tdItem>> object to store all arraylists of <tdItem> created
-        // use for loop using count variable
-        // create arraylist <tdItem>
-        // set equal to loadList() function
-        // add arraylist <tdItem> to ArrayList<ArrayList<tdItem>>(i)
-        return listOfLists; // return ArrayList<ArrayList<tdItem>>
     }
 }

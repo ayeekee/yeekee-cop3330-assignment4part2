@@ -6,25 +6,49 @@
 package ucf.assignments;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 
 // class defines objects for a to-do list
 class tdItem{
-    String itemDesc;
-    String date;
-    Boolean mark;
+    private SimpleStringProperty desc;
+    private LocalDate date;
+    private Boolean status;
 
-    // create to-do list fields and set equal to each other
-    tdItem(String itemDesc, String date, Boolean mark){
-        this.itemDesc = itemDesc;
+    public tdItem(LocalDate date, String desc, Boolean status){
+        this.desc = new SimpleStringProperty(desc);
         this.date = date;
-        this.mark = false;
+        this.status = status;
+    }
+
+    public String getDesc(){
+        return desc.get();
+    }
+
+    public void setDesc(String desc){
+        this.desc = new SimpleStringProperty(desc);
+    }
+
+    public LocalDate getDate(){
+        return date;
+    }
+
+    public void setDate(LocalDate date){
+        this.date = date;
+    }
+
+    public Boolean getStatus(){
+        return status;
+    }
+
+    public void setStatus(Boolean status){
+        this.status = status;
     }
 }
 
@@ -38,7 +62,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         // create gui
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("hello-view.fxml")); // open fxml file
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240); // create new scene to display
+        Scene scene = new Scene(fxmlLoader.load(), 740, 310); // create new scene to display
         stage.setTitle("To-Do List Maker"); // give title
         stage.setScene(scene); // set scene
         stage.show(); // display
@@ -50,9 +74,8 @@ public class App extends Application {
         // prompt user for a to-do list title
         // call addList function, pass in string title
 
-        // create object variable list for tdList class
-
         // create arraylist object of type tdItem
+        // ArrayList<tdItem> tdList = new ArrayList<>();
 
         launch(); // launch gui
     }

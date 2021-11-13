@@ -5,19 +5,64 @@
 
 package ucf.assignments;
 
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
+import javax.security.auth.callback.Callback;
 import java.io.File;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 // class controls gui for user interaction with buttons
-public class GuiController {
+public class GuiController implements Initializable {
+
+    @FXML private Button addItemButton;
+
+    @FXML private DatePicker datePicker;
+    @FXML private TextArea descBox;
+
+    @FXML private TableView<tdItem> tableOfList;
+    @FXML private TableColumn<tdItem, String> descCol;
+    @FXML private TableColumn<tdItem, LocalDate> dateCol;
+    @FXML private TableColumn<tdItem, Boolean> statusCol;
 
     @FXML
+    void addItem(ActionEvent event) {
+        tdItem item = new tdItem(datePicker.getValue(), descBox.getText(), false);
+        tableOfList.getItems().add(item);
+    }
 
-    // test
+    public ObservableList<tdItem> getList(){
+        ObservableList<tdItem> tdList = FXCollections.observableArrayList();
+
+        return tdList;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        datePicker.setValue(LocalDate.now());
+
+        descCol.setCellValueFactory(new PropertyValueFactory<tdItem, String>("desc"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<tdItem, LocalDate>("date"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<tdItem, Boolean>("status"));
+
+        tableOfList.setItems(getList());
+
+        tableOfList.setEditable(true);
+    }
+
+    // ---------------------------------------------------------------------------- //
 
     // method creates a new folder as a to-do list from the user-input list title
     public static boolean addList(String title){
@@ -29,7 +74,7 @@ public class GuiController {
     }
 
     // method writes given itemDesc to the existing file specified
-    public static ArrayList<tdItem> addToExistList(File file, ArrayList<tdItem> tdList){
+    public static ArrayList<tdItem> addItem(File file, ArrayList<tdItem> tdList){
         // open file specified
         // create new item object from user input
         // add newItem to tdList
@@ -37,7 +82,7 @@ public class GuiController {
     }
 
     // method deletes given string from file given (call on both date and itemDesc strings)
-    public static ArrayList<tdItem> delFromExistList(File file, ArrayList<tdItem> tdList){
+    public static ArrayList<tdItem> delItem(File file, ArrayList<tdItem> tdList){
         // open file specified
         // when user interacts with delete button on a specific item from the arraylist, delete it using .remove()
         return tdList; // return arraylist w item deleted

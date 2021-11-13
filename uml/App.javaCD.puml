@@ -17,8 +17,8 @@ package ucf.assignments{
 
     +Class GuiController{
         +{static}addList(String title)
-        +{static}addToExistList(File file, ArrayList<tdItem> tdList)
-        +{static}delFromExistList(File file, ArrayList<tdItem> tdList)
+        +{static}addItem(File file, ArrayList<tdItem> tdList)
+        +{static}delItem(File file, ArrayList<tdItem> tdList)
         +{static}editListDesc(tdItem item, ArrayList<tdItem> tdlist)
         +{static}editDate(tdItem item, ArrayList<tdItem> tdlist)
         +{static}markCom(tdItem item, ArrayList<tdItem> tdList)

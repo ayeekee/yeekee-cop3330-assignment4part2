@@ -4,22 +4,18 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.GuiController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="747.0">
         <menus>
@@ -28,55 +24,43 @@
               <MenuItem mnemonicParsing="false" text="Load..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Save..." />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Save all..." />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help" />
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.24026845637583893" layoutY="25.0" prefHeight="304.0" prefWidth="747.0">
+      <SplitPane dividerPositions="0.30335570469798656" layoutY="25.0" prefHeight="304.0" prefWidth="747.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="311.0" prefWidth="176.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="302.0" prefWidth="330.0">
                <children>
-                  <TextField layoutX="22.0" layoutY="17.0" prefHeight="25.0" prefWidth="131.0" promptText="Search lists..." />
-                  <Separator layoutY="40.0" prefHeight="42.0" prefWidth="245.0" />
-                  <ListView layoutX="-1.0" layoutY="61.0" prefHeight="200.0" prefWidth="245.0" />
-                  <ScrollBar layoutX="163.0" layoutY="61.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
-                  <Button layoutX="101.0" layoutY="269.0" mnemonicParsing="false" text="Delete list" />
-                  <Button layoutX="5.0" layoutY="269.0" mnemonicParsing="false" text="Edit list" />
+                  <DatePicker fx:id="datePicker" layoutX="24.0" layoutY="14.0" prefHeight="25.0" prefWidth="176.0" promptText="Select date..." />
+                  <TextArea fx:id="descBox" layoutX="24.0" layoutY="64.0" prefHeight="123.0" prefWidth="176.0" promptText="Enter item description..." />
+                  <Button fx:id="addItemButton" layoutX="67.0" layoutY="212.0" mnemonicParsing="false" onAction="#addItem" prefHeight="25.0" prefWidth="90.0" text="Add new item" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="563.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="302.0" prefWidth="465.0">
                <children>
-                  <DatePicker layoutX="14.0" layoutY="7.0" prefHeight="25.0" prefWidth="214.0" promptText="Select date..." />
-                  <TextArea layoutX="14.0" layoutY="44.0" prefHeight="74.0" prefWidth="214.0" promptText="Enter item description..." />
-                  <Button layoutX="76.0" layoutY="132.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Add new item" />
-                  <MenuButton layoutX="69.0" layoutY="212.0" mnemonicParsing="false" text="Select...">
+                  <MenuButton layoutX="69.0" layoutY="243.0" mnemonicParsing="false" text="Select...">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Edit item" />
                       <MenuItem mnemonicParsing="false" text="Delete item" />
                     </items>
                   </MenuButton>
-                  <Label layoutX="14.0" layoutY="216.0" text="Actions:" />
-                  <CheckBox layoutX="415.0" layoutY="207.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" text="Mark as complete" />
-                  <Label layoutX="195.0" layoutY="217.0" text="View:" />
-                  <MenuButton layoutX="237.0" layoutY="212.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Display all items">
+                  <Label layoutX="14.0" layoutY="247.0" text="Actions:" />
+                  <CheckBox layoutX="380.0" layoutY="239.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" text="Mark as complete" />
+                  <Label layoutX="176.0" layoutY="249.0" text="View:" />
+                  <MenuButton layoutX="218.0" layoutY="244.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Display all items">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Display complete items" />
                         <MenuItem mnemonicParsing="false" text="Display incomplete items" />
                      </items>
                   </MenuButton>
-                  <TableView layoutX="260.0" prefHeight="200.0" prefWidth="303.0">
+                  <TableView fx:id="tableOfList" layoutX="35.0" layoutY="14.0" prefHeight="200.0" prefWidth="445.0">
                     <columns>
-                      <TableColumn prefWidth="147.0" text="Item Desc." />
-                      <TableColumn prefWidth="85.0" text="Date" />
-                        <TableColumn prefWidth="70.0" text="Status" />
+                      <TableColumn fx:id="descCol" prefWidth="220.0" text="Desc" />
+                      <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="130.0" text="Date" />
+                        <TableColumn fx:id="statusCol" prefWidth="94.0" text="Status" />
                     </columns>
                   </TableView>
-                  <Separator layoutX="-4.0" layoutY="249.0" prefHeight="0.0" prefWidth="570.0" />
-                  <TextField layoutX="17.0" layoutY="264.0" prefHeight="25.0" prefWidth="214.0" promptText="Enter list title..." />
-                  <Button layoutX="270.0" layoutY="264.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Add new list" />
                </children>
             </AnchorPane>
         </items>

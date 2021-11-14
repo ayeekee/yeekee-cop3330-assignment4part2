@@ -31,6 +31,8 @@ public class GuiController implements Initializable {
 
     @FXML private Button addItemButton;
     @FXML private MenuItem deleteOption;
+    @FXML private MenuItem clearOption;
+    @FXML private MenuItem editOption;
 
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
@@ -51,9 +53,6 @@ public class GuiController implements Initializable {
         statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("status"));
 
         tableOfList.setItems(tdList);
-
-        tableOfList.setEditable(true);
-        editItem();
     }
 
     @FXML
@@ -69,6 +68,8 @@ public class GuiController implements Initializable {
 
         Item item = new Item(holdDesc, holdDate, holdStatus);
         tableOfList.getItems().add(item);
+
+        descBox.clear();
     }
 
     @FXML
@@ -77,7 +78,12 @@ public class GuiController implements Initializable {
     }
 
     @FXML
-    void editItem() {
+    void clearList(ActionEvent event) {
+        tableOfList.getItems().clear();
+    }
+
+    @FXML
+    void editItem(ActionEvent event) {
         tableOfList.setEditable(true);
 
         descCol.setCellFactory(TextFieldTableCell.forTableColumn());

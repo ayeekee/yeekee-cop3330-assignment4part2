@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class GuiController implements Initializable {
 
     @FXML private Button addItemButton;
+    @FXML private MenuItem deleteOption;
 
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
@@ -40,6 +41,20 @@ public class GuiController implements Initializable {
     @FXML private TableColumn<Item, String> statusCol;
 
     public ObservableList<Item> tdList = FXCollections.observableArrayList();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        datePicker.setValue(LocalDate.now());
+
+        descCol.setCellValueFactory(new PropertyValueFactory<Item, String>("desc"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("status"));
+
+        tableOfList.setItems(tdList);
+
+        tableOfList.setEditable(true);
+        editItem();
+    }
 
     @FXML
     void addItem(ActionEvent event) {
@@ -56,11 +71,15 @@ public class GuiController implements Initializable {
         tableOfList.getItems().add(item);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        datePicker.setValue(LocalDate.now());
+    @FXML
+    void deleteItem(ActionEvent event) {
+        tableOfList.getItems().removeAll(tableOfList.getSelectionModel().getSelectedItem());
+    }
 
-        descCol.setCellValueFactory(new PropertyValueFactory<Item, String>("desc"));
+    @FXML
+    void editItem() {
+        tableOfList.setEditable(true);
+
         descCol.setCellFactory(TextFieldTableCell.forTableColumn());
         descCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Item, String>>(){
             @Override
@@ -70,16 +89,23 @@ public class GuiController implements Initializable {
             }
         });
 
-        dateCol.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
-        //dateCol.setCellFactory(TableCell.forTableColumn());
+        dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dateCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Item, String>>(){
+            @Override
+            public void handle(TableColumn.CellEditEvent<Item, String> event){
+                Item item = event.getRowValue();
+                item.setDate(event.getNewValue());
+            }
+        });
 
-        statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("status"));
-
-        tableOfList.setItems(tdList);
-
-        //tableOfList.setItems(getList());
-
-        tableOfList.setEditable(true);
+        /*descCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        descCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Item, String>>(){
+            @Override
+            public void handle(TableColumn.CellEditEvent<Item, String> event){
+                Item item = event.getRowValue();
+                item.setDesc(event.getNewValue());
+            }
+        });*/
     }
 
     // ---------------------------------------------------------------------------- //

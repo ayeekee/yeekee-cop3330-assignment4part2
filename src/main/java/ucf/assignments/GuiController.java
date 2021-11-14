@@ -10,17 +10,19 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 
-import javax.security.auth.callback.Callback;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -32,32 +34,50 @@ public class GuiController implements Initializable {
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
 
-    @FXML private TableView<tdItem> tableOfList;
-    @FXML private TableColumn<tdItem, String> descCol;
-    @FXML private TableColumn<tdItem, LocalDate> dateCol;
-    @FXML private TableColumn<tdItem, Boolean> statusCol;
+    @FXML private TableView<Item> tableOfList;
+    @FXML private TableColumn<Item, String> descCol;
+    @FXML private TableColumn<Item, String> dateCol;
+    @FXML private TableColumn<Item, String> statusCol;
+
+    public ObservableList<Item> tdList = FXCollections.observableArrayList();
 
     @FXML
     void addItem(ActionEvent event) {
-        tdItem item = new tdItem(datePicker.getValue(), descBox.getText(), false);
+        String holdDesc = "";
+        holdDesc = descBox.getText();
+
+        String holdDate = "";
+        LocalDate date = datePicker.getValue();
+        holdDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        String holdStatus = "Incomplete";
+
+        Item item = new Item(holdDesc, holdDate, holdStatus);
         tableOfList.getItems().add(item);
-    }
-
-    public ObservableList<tdItem> getList(){
-        ObservableList<tdItem> tdList = FXCollections.observableArrayList();
-
-        return tdList;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         datePicker.setValue(LocalDate.now());
 
-        descCol.setCellValueFactory(new PropertyValueFactory<tdItem, String>("desc"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<tdItem, LocalDate>("date"));
-        statusCol.setCellValueFactory(new PropertyValueFactory<tdItem, Boolean>("status"));
+        descCol.setCellValueFactory(new PropertyValueFactory<Item, String>("desc"));
+        descCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        descCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Item, String>>(){
+            @Override
+            public void handle(TableColumn.CellEditEvent<Item, String> event){
+                Item item = event.getRowValue();
+                item.setDesc(event.getNewValue());
+            }
+        });
 
-        tableOfList.setItems(getList());
+        dateCol.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        //dateCol.setCellFactory(TableCell.forTableColumn());
+
+        statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("status"));
+
+        tableOfList.setItems(tdList);
+
+        //tableOfList.setItems(getList());
 
         tableOfList.setEditable(true);
     }
@@ -74,7 +94,7 @@ public class GuiController implements Initializable {
     }
 
     // method writes given itemDesc to the existing file specified
-    public static ArrayList<tdItem> addItem(File file, ArrayList<tdItem> tdList){
+    public static ArrayList<Item> addItem(File file, ArrayList<Item> tdList){
         // open file specified
         // create new item object from user input
         // add newItem to tdList
@@ -82,14 +102,14 @@ public class GuiController implements Initializable {
     }
 
     // method deletes given string from file given (call on both date and itemDesc strings)
-    public static ArrayList<tdItem> delItem(File file, ArrayList<tdItem> tdList){
+    public static ArrayList<Item> delItem(File file, ArrayList<Item> tdList){
         // open file specified
         // when user interacts with delete button on a specific item from the arraylist, delete it using .remove()
         return tdList; // return arraylist w item deleted
     }
 
     // method replaces old user input for item description field in item/arraylist with a new description
-    public static String editListDesc(tdItem item, ArrayList<tdItem> tdlist){
+    public static String editListDesc(Item item, ArrayList<Item> tdlist){
         String newDesc = null;
         // select item to edit from tdList arraylist
         // make string variable for old string, set equal to itemDesc object of the specified item
@@ -100,7 +120,7 @@ public class GuiController implements Initializable {
     }
 
     // method replaces old user input for date in arraylist/item with the new date they want to select
-    public static String editDate(tdItem item, ArrayList<tdItem> tdlist){
+    public static String editDate(Item item, ArrayList<Item> tdlist){
         String newDate = null;
         // select item to edit from tdList arraylist
         // make string variable for old string, set equal to date object of the specified item
@@ -111,7 +131,7 @@ public class GuiController implements Initializable {
     }
 
     // method keeps track of which items have been completed in the arraylist
-    public static ArrayList<tdItem> markCom(tdItem item, ArrayList<tdItem> tdList){
+    public static ArrayList<Item> markCom(Item item, ArrayList<Item> tdList){
         // select item from tdList arraylist
         // if the user clicks the checkmark in the "mark as complete" complete button,
         // set status field from tdItem item to true
@@ -119,7 +139,7 @@ public class GuiController implements Initializable {
     }
 
     // method shows user all items in an arraylist (their to do list)
-    public static int displayAll(File file, ArrayList<tdItem> tdList){
+    public static int displayAll(File file, ArrayList<Item> tdList){
         // print file name using .getName() of the file
         // create a count variable to keep track of how many times the loop runs
         // use for loop to iterate through arraylist
@@ -129,7 +149,7 @@ public class GuiController implements Initializable {
     }
 
     // method shows items that are marked incomplete in tdList
-    public static int displayIncomplete(File file, ArrayList<tdItem> tdList){
+    public static int displayIncomplete(File file, ArrayList<Item> tdList){
         // print file name using .getName()
         // create a count variable to keep track of how many times the loop runs
         // use for loop to iterate through the arraylist
@@ -140,7 +160,7 @@ public class GuiController implements Initializable {
     }
 
     // method displays items that are marked as complete in tdList
-    public static int displayComplete(File file, ArrayList<tdItem> tdList){
+    public static int displayComplete(File file, ArrayList<Item> tdList){
         // print file name using .getName()
         // create a count variable to keep track of how many times the loop runs
         // use for loop to iterate through the arraylist
@@ -151,7 +171,7 @@ public class GuiController implements Initializable {
     }
 
     // method writes data from tdList arraylist into specified file and stores in path specified
-    public static File saveListItems(File file, ArrayList<tdItem> tdList){
+    public static File saveListItems(File file, ArrayList<Item> tdList){
         // when usernames file (title of to-do list), open it to write to it
         // print name of file using .getName()
         // use for loop to write all content from tdList array into the file
@@ -162,8 +182,8 @@ public class GuiController implements Initializable {
     }
 
     // method opens file (to do list) user specifies and stores info in arraylist
-    public static ArrayList<tdItem> loadList(){
-        ArrayList<tdItem> arrList = null;
+    public static ArrayList<Item> loadList(){
+        ArrayList<Item> arrList = null;
         // ask user which list they'd like to load
         // use a file chooser
         // open file user selects

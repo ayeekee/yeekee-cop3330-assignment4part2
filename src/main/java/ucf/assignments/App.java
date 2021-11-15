@@ -20,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         // create gui
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("hello-view.fxml")); // open fxml file
-        Scene scene = new Scene(fxmlLoader.load(), 740, 310); // create new scene to display
+        Scene scene = new Scene(fxmlLoader.load(), 740, 295); // create new scene to display
         stage.setTitle("To-Do List Maker"); // give title
         stage.setScene(scene); // set scene
         stage.show(); // display

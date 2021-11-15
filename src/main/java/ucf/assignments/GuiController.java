@@ -20,9 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -56,6 +55,8 @@ public class GuiController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fileChooser.setInitialDirectory(new File("C:\\temp"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
+        fileChooser.setInitialFileName(".txt");
 
         datePicker.setValue(LocalDate.now());
 
@@ -68,8 +69,7 @@ public class GuiController implements Initializable {
 
     @FXML
     void addItem(ActionEvent event) {
-        String holdDesc = "";
-        holdDesc = descBox.getText();
+        String holdDesc = descBox.getText();
 
         String holdDate = "";
         LocalDate date = datePicker.getValue();
@@ -82,7 +82,7 @@ public class GuiController implements Initializable {
             descBox.clear();
         }
         else{
-            descAlertDisplay();
+            AlertDisplay("Description Input Error","Your description must be between 1 and 256 characters!");
         }
     }
 
@@ -109,7 +109,7 @@ public class GuiController implements Initializable {
                 if (event.getNewValue().length() >= 1 && event.getNewValue().length() <= 256) {
                     item.setDesc(event.getNewValue());
                 } else {
-                    descAlertDisplay();
+                    AlertDisplay("Description Input Error","Your description must be between 1 and 256 characters!");
                 }
             }
         });
@@ -123,7 +123,7 @@ public class GuiController implements Initializable {
                 if(dateValidator(event.getNewValue())){
                     item.setDate(event.getNewValue());
                 } else {
-                    dateAlertDisplay();
+                    AlertDisplay("Date Input Error", "Your date must be in the \"yyyy-mm-dd\" format!");
                 }
             }
         });
@@ -161,11 +161,32 @@ public class GuiController implements Initializable {
     }
 
     @FXML
-    void saveList(ActionEvent event) {
-        VBox menu;
+    void saveList(ActionEvent event) throws Exception {
+        File file = fileChooser.showSaveDialog(new Stage());
 
-        Window stage = menu.getScene().getWindow();
+        if (file != null) {
+            if (file.getName().endsWith(".txt")) {
+                PrintStream writer = new PrintStream(file);
 
+                int i = 0;
+
+                while(i < tdList.size()){
+                    if(tdList.get(i) != null){
+                        writer.print(tdList.get(i).getDesc());
+                        writer.print(",");
+                        writer.print(tdList.get(i).getDate());
+                        writer.print(",");
+                        writer.print(tdList.get(i).getStatus().isSelected());
+                        writer.println();
+                    }
+                    i++;
+                }
+                writer.close();
+
+            } else {
+                AlertDisplay("File Extension Error", "Your file must end with .txt!");
+            }
+        }
     }
 
     public Boolean dateValidator(String date){
@@ -180,36 +201,15 @@ public class GuiController implements Initializable {
 
     }
 
-    public void dateAlertDisplay(){
+    public void AlertDisplay(String title, String message){
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Date Input Error");
+        window.setTitle(title);
         window.setMinWidth(300);
 
         Label label = new Label();
-        label.setText("Your date must be in the \"yyyy-mm-dd\" format!");
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(e -> window.close());
-
-        VBox bg = new VBox(10);
-        bg.getChildren().addAll(label, closeButton);
-        bg.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(bg);
-        window.setScene(scene);
-        window.showAndWait();
-    }
-
-    public void descAlertDisplay(){
-        Stage window = new Stage();
-
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Description Input Error");
-        window.setMinWidth(300);
-
-        Label label = new Label();
-        label.setText("Your description must be between 1 and 256 characters!");
+        label.setText(message);
         Button closeButton = new Button("Close");
         closeButton.setOnAction(e -> window.close());
 

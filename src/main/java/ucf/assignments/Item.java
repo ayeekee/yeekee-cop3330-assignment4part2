@@ -8,8 +8,10 @@ package ucf.assignments;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.CheckBox;
 
+import java.io.Serializable;
+
 // class defines objects for a to-do list
-public class Item {
+public class Item implements Serializable {
     private SimpleStringProperty desc;
     private SimpleStringProperty date;
     private CheckBox status;

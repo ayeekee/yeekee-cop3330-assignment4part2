@@ -26,10 +26,15 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 // class controls gui for user interaction with buttons
 public class GuiController implements Initializable {
@@ -72,7 +77,7 @@ public class GuiController implements Initializable {
 
         String holdStatus = "Incomplete";
 
-        if(holdDesc.length() > 1 && holdDesc.length() <= 256){
+        if(holdDesc.length() >= 1 && holdDesc.length() <= 256){
             Item item = new Item(holdDesc, holdDate, holdStatus);
             tableOfList.getItems().add(item);
 
@@ -102,7 +107,12 @@ public class GuiController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<Item, String> event){
                 Item item = event.getRowValue();
-                item.setDesc(event.getNewValue());
+
+                if (event.getNewValue().length() >= 1 && event.getNewValue().length() <= 256) {
+                    item.setDesc(event.getNewValue());
+                } else {
+                    descAlertDisplay();
+                }
             }
         });
 
@@ -111,7 +121,12 @@ public class GuiController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<Item, String> event){
                 Item item = event.getRowValue();
-                item.setDate(event.getNewValue());
+
+                if(dateValidator(event.getNewValue())){
+                    item.setDate(event.getNewValue());
+                } else {
+                    dateAlertDisplay();
+                }
             }
         });
     }
@@ -121,11 +136,43 @@ public class GuiController implements Initializable {
 
     }
 
+    public Boolean dateValidator(String date){
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            dateFormat.parse(date);
+        } catch(DateTimeParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void dateAlertDisplay(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Date Input Error");
+        window.setMinWidth(300);
+
+        Label label = new Label();
+        label.setText("Your date must be in the \"yyyy-mm-dd\" format!");
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> window.close());
+
+        VBox bg = new VBox(10);
+        bg.getChildren().addAll(label, closeButton);
+        bg.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(bg);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
     public void descAlertDisplay(){
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Description Error");
+        window.setTitle("Description Input Error");
         window.setMinWidth(300);
 
         Label label = new Label();

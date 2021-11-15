@@ -28,29 +28,29 @@ package ucf.assignments{
     +Class GuiController{
         DatePicker datePicker;
         -TextArea descBox;
+        -TableView<Item> tableOfList;
+        -TableColumn<Item, String> descCol;
+        -TableColumn<Item, String> dateCol;
+        -TableColumn<Item, CheckBox> statusCol;
 
-            @FXML private TableView<Item> tableOfList;
-            @FXML private TableColumn<Item, String> descCol;
-            @FXML private TableColumn<Item, String> dateCol;
-            @FXML private TableColumn<Item, CheckBox> statusCol;
+        +ObservableList<Item> tdList
+        +ObservableList<Item> loadList
 
-            public ObservableList<Item> tdList = FXCollections.observableArrayList();
-            public ObservableList<Item> loadList = FXCollections.observableArrayList();
+        +FileChooser fileChooser
 
-            FileChooser fileChooser = new FileChooser();
-
-
-        +{static}addList(String title)
-        +{static}addItem(File file, ArrayList<tdItem> tdList)
-        +{static}delItem(File file, ArrayList<tdItem> tdList)
-        +{static}editListDesc(tdItem item, ArrayList<tdItem> tdlist)
-        +{static}editDate(tdItem item, ArrayList<tdItem> tdlist)
-        +{static}markCom(tdItem item, ArrayList<tdItem> tdList)
-        +{static}displayAll(File file, ArrayList<tdItem> tdList)
-        +{static}displayIncomplete(File file, ArrayList<tdItem> tdList)
-        +{static}displayComplete(File file, ArrayList<tdItem> tdList)
-        +{static}saveListItems(File file, ArrayList<tdItem> tdList)
-        +{static}loadList()
+        +void initialize(URL location, ResourceBundle resources)
+        addItem(ActionEvent event)
+        deleteItem(ActionEvent event)
+        clearList(ActionEvent event)
+        editItem(ActionEvent event)
+        displayAll(ActionEvent event)
+        displayComp(ActionEvent event)
+        displayIncomplete(ActionEvent event)
+        saveList(ActionEvent event)
+        loadList(ActionEvent event)
+        exit(ActionEvent event)
+        +dateValidator(String date)
+        +AlertDisplay(String title, String message)
     }
 }
 @enduml

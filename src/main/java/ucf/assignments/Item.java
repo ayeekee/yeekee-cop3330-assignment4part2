@@ -11,7 +11,7 @@ import javafx.scene.control.CheckBox;
 import java.io.Serializable;
 
 // class defines objects for a to-do list
-public class Item implements Serializable {
+public class Item {
     private SimpleStringProperty desc;
     private SimpleStringProperty date;
     private CheckBox status;

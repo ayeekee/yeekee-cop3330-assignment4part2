@@ -5,6 +5,7 @@
 
 package ucf.assignments;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,14 +33,6 @@ import java.util.ResourceBundle;
 // class controls gui for user interaction with buttons
 public class GuiController implements Initializable {
 
-    @FXML private Button addItemButton;
-    @FXML private MenuItem deleteOption;
-    @FXML private MenuItem clearOption;
-    @FXML private MenuItem editOption;
-    @FXML private MenuItem displayCompOption;
-    @FXML private MenuItem displayIncompOption;
-    @FXML private MenuItem displayAll;
-
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
 
@@ -49,8 +42,9 @@ public class GuiController implements Initializable {
     @FXML private TableColumn<Item, CheckBox> statusCol;
 
     public ObservableList<Item> tdList = FXCollections.observableArrayList();
+    public ObservableList<Item> loadList = FXCollections.observableArrayList();
 
-    FileChooser fileChooser = new FileChooser();
+    public FileChooser fileChooser = new FileChooser();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -143,7 +137,6 @@ public class GuiController implements Initializable {
                 completeList.add(temp);
             }
         }
-
         tableOfList.setItems(completeList);
     }
 
@@ -156,7 +149,6 @@ public class GuiController implements Initializable {
                 incompleteList.add(temp);
             }
         }
-
         tableOfList.setItems(incompleteList);
     }
 
@@ -164,29 +156,73 @@ public class GuiController implements Initializable {
     void saveList(ActionEvent event) throws Exception {
         File file = fileChooser.showSaveDialog(new Stage());
 
-        if (file != null) {
-            if (file.getName().endsWith(".txt")) {
-                PrintStream writer = new PrintStream(file);
+        try{
+            if (file != null) {
+                if (file.getName().endsWith(".txt")) {
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
-                int i = 0;
+                    int i = 0;
 
-                while(i < tdList.size()){
-                    if(tdList.get(i) != null){
-                        writer.print(tdList.get(i).getDesc());
-                        writer.print(",");
-                        writer.print(tdList.get(i).getDate());
-                        writer.print(",");
-                        writer.print(tdList.get(i).getStatus().isSelected());
-                        writer.println();
+                    while(i < tdList.size()){
+                        if(tdList.get(i) != null){
+                            bw.write(tdList.get(i).getDesc());
+                            bw.write(",");
+                            bw.write(tdList.get(i).getDate());
+                            bw.write(",");
+                            bw.write(String.valueOf(tdList.get(i).getStatus().isSelected()));
+                            bw.write("\n");
+                        }
+                        i++;
                     }
-                    i++;
+                    bw.close();
+                } else {
+                    AlertDisplay("File Extension Error", "Your file must end with .txt!");
                 }
-                writer.close();
-
-            } else {
-                AlertDisplay("File Extension Error", "Your file must end with .txt!");
             }
+        } catch (Exception e){
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    void loadList(ActionEvent event) throws IOException {
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        try {
+            if(file != null){
+                tdList.clear();
+
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+
+                String line = br.readLine();
+
+                while(line != null){
+                    String[] temp = line.split(",");
+
+                    Item item = new Item(temp[0], temp[1]);
+
+                    CheckBox stat = new CheckBox();
+
+                    if(temp[2].equalsIgnoreCase("true")){
+                        stat.setSelected(true);
+                    } else{
+                        stat.setSelected(false);
+                    }
+                    loadList.add(item);
+                    line = br.readLine();
+                }
+                tdList = loadList;
+                tableOfList.setItems(tdList);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void exit(ActionEvent event) {
+        Platform.exit();
     }
 
     public Boolean dateValidator(String date){
@@ -198,7 +234,6 @@ public class GuiController implements Initializable {
             return false;
         }
         return true;
-
     }
 
     public void AlertDisplay(String title, String message){

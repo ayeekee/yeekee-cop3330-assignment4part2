@@ -7,15 +7,39 @@ package ucf.assignments{
     App -- GuiController
 
     +Class App{
-    +start(Stage stage)
-    +{static}main(String[] args)
+        +start(Stage stage)
+        +{static}main(String[] args)
     }
 
-    Class tdItem{
-        tdItem(String itemDesc, String date, Boolean mark)
+    +Class tdItem{
+        -SimpleStringProperty desc
+        -SimpleStringProperty date
+        -CheckBox status
+
+        tdItem(String desc, String date)
+        +getDesc()
+        +setDesc(String desc)
+        +getDate()
+        +setDate(String date)
+        +getStatus()
+        +setStatus(Checkbox status)
     }
 
     +Class GuiController{
+        DatePicker datePicker;
+        -TextArea descBox;
+
+            @FXML private TableView<Item> tableOfList;
+            @FXML private TableColumn<Item, String> descCol;
+            @FXML private TableColumn<Item, String> dateCol;
+            @FXML private TableColumn<Item, CheckBox> statusCol;
+
+            public ObservableList<Item> tdList = FXCollections.observableArrayList();
+            public ObservableList<Item> loadList = FXCollections.observableArrayList();
+
+            FileChooser fileChooser = new FileChooser();
+
+
         +{static}addList(String title)
         +{static}addItem(File file, ArrayList<tdItem> tdList)
         +{static}delItem(File file, ArrayList<tdItem> tdList)

@@ -47,7 +47,7 @@
                     </items>
                   </MenuButton>
                   <Label layoutX="14.0" layoutY="247.0" text="Actions:" />
-                  <CheckBox layoutX="380.0" layoutY="239.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" text="Mark as complete" />
+                  <CheckBox fx:id="checkBox" layoutX="380.0" layoutY="239.0" mnemonicParsing="false" onAction="#markCheckBox" prefHeight="34.0" prefWidth="122.0" text="Mark as complete" />
                   <Label layoutX="176.0" layoutY="249.0" text="View:" />
                   <MenuButton layoutX="218.0" layoutY="244.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Display all items">
                      <items>

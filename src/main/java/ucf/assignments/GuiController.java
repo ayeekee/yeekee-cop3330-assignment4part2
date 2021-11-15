@@ -13,11 +13,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -34,6 +39,7 @@ public class GuiController implements Initializable {
     @FXML private MenuItem clearOption;
     @FXML private MenuItem editOption;
 
+    @FXML private CheckBox checkBox;
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
 
@@ -66,10 +72,15 @@ public class GuiController implements Initializable {
 
         String holdStatus = "Incomplete";
 
-        Item item = new Item(holdDesc, holdDate, holdStatus);
-        tableOfList.getItems().add(item);
+        if(holdDesc.length() > 1 && holdDesc.length() <= 256){
+            Item item = new Item(holdDesc, holdDate, holdStatus);
+            tableOfList.getItems().add(item);
 
-        descBox.clear();
+            descBox.clear();
+        }
+        else{
+            descAlertDisplay();
+        }
     }
 
     @FXML
@@ -103,15 +114,32 @@ public class GuiController implements Initializable {
                 item.setDate(event.getNewValue());
             }
         });
+    }
 
-        /*descCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        descCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Item, String>>(){
-            @Override
-            public void handle(TableColumn.CellEditEvent<Item, String> event){
-                Item item = event.getRowValue();
-                item.setDesc(event.getNewValue());
-            }
-        });*/
+    @FXML
+    void markCheckBox(ActionEvent event) {
+
+    }
+
+    public void descAlertDisplay(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Description Error");
+        window.setMinWidth(300);
+
+        Label label = new Label();
+        label.setText("Your description must be between 1 and 256 characters!");
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> window.close());
+
+        VBox bg = new VBox(10);
+        bg.getChildren().addAll(label, closeButton);
+        bg.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(bg);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     // ---------------------------------------------------------------------------- //

@@ -6,17 +6,18 @@
 package ucf.assignments;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.CheckBox;
 
 // class defines objects for a to-do list
 public class Item {
     private SimpleStringProperty desc;
     private SimpleStringProperty date;
-    private SimpleStringProperty status;
+    private CheckBox status;
 
-    public Item(String desc, String date, String status){
+    public Item(String desc, String date){
         this.desc = new SimpleStringProperty(desc);
         this.date = new SimpleStringProperty(date);
-        this.status = new SimpleStringProperty(status);
+        this.status = new CheckBox();
     }
 
     public String getDesc(){
@@ -35,11 +36,11 @@ public class Item {
         this.date = new SimpleStringProperty(date);
     }
 
-    public String getStatus(){
-        return status.get();
+    public CheckBox getStatus(){
+        return status;
     }
 
-    public void setStatus(String status){
-        this.status = new SimpleStringProperty(status);
+    public void setStatus(CheckBox status){
+        this.status = status;
     }
 }

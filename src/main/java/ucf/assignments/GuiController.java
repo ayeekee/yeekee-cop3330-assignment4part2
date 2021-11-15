@@ -5,8 +5,6 @@
 
 package ucf.assignments;
 
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,25 +14,21 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.File;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 // class controls gui for user interaction with buttons
 public class GuiController implements Initializable {
@@ -43,25 +37,31 @@ public class GuiController implements Initializable {
     @FXML private MenuItem deleteOption;
     @FXML private MenuItem clearOption;
     @FXML private MenuItem editOption;
+    @FXML private MenuItem displayCompOption;
+    @FXML private MenuItem displayIncompOption;
+    @FXML private MenuItem displayAll;
 
-    @FXML private CheckBox checkBox;
     @FXML private DatePicker datePicker;
     @FXML private TextArea descBox;
 
     @FXML private TableView<Item> tableOfList;
     @FXML private TableColumn<Item, String> descCol;
     @FXML private TableColumn<Item, String> dateCol;
-    @FXML private TableColumn<Item, String> statusCol;
+    @FXML private TableColumn<Item, CheckBox> statusCol;
 
     public ObservableList<Item> tdList = FXCollections.observableArrayList();
 
+    FileChooser fileChooser = new FileChooser();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        fileChooser.setInitialDirectory(new File("C:\\temp"));
+
         datePicker.setValue(LocalDate.now());
 
         descCol.setCellValueFactory(new PropertyValueFactory<Item, String>("desc"));
         dateCol.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
-        statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("status"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<Item, CheckBox>("status"));
 
         tableOfList.setItems(tdList);
     }
@@ -75,10 +75,8 @@ public class GuiController implements Initializable {
         LocalDate date = datePicker.getValue();
         holdDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String holdStatus = "Incomplete";
-
         if(holdDesc.length() >= 1 && holdDesc.length() <= 256){
-            Item item = new Item(holdDesc, holdDate, holdStatus);
+            Item item = new Item(holdDesc, holdDate);
             tableOfList.getItems().add(item);
 
             descBox.clear();
@@ -132,19 +130,54 @@ public class GuiController implements Initializable {
     }
 
     @FXML
-    void markCheckBox(ActionEvent event) {
+    void displayAll(ActionEvent event) {
+        tableOfList.setItems(tdList);
+    }
+
+    @FXML
+    void displayComp(ActionEvent event) {
+        ObservableList<Item> completeList = FXCollections.observableArrayList();
+
+        for(Item temp : tdList){
+            if(temp.getStatus().isSelected()){
+                completeList.add(temp);
+            }
+        }
+
+        tableOfList.setItems(completeList);
+    }
+
+    @FXML
+    void displayIncomplete(ActionEvent event) {
+        ObservableList<Item> incompleteList = FXCollections.observableArrayList();
+
+        for(Item temp : tdList){
+            if(!temp.getStatus().isSelected()){
+                incompleteList.add(temp);
+            }
+        }
+
+        tableOfList.setItems(incompleteList);
+    }
+
+    @FXML
+    void saveList(ActionEvent event) {
+        VBox menu;
+
+        Window stage = menu.getScene().getWindow();
 
     }
 
     public Boolean dateValidator(String date){
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         try {
-            dateFormat.parse(date);
+            format.parse(date);
         } catch(DateTimeParseException e) {
             return false;
         }
         return true;
+
     }
 
     public void dateAlertDisplay(){

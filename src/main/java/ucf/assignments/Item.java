@@ -8,20 +8,20 @@ package ucf.assignments;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.CheckBox;
 
-import java.io.Serializable;
-
 // class defines objects for a to-do list
 public class Item {
-    private SimpleStringProperty desc;
-    private SimpleStringProperty date;
-    private CheckBox status;
+    private SimpleStringProperty desc; // string variable for item description
+    private SimpleStringProperty date; // string variable for the date
+    private CheckBox status; // checkBox variable for whether or not the item was completed
 
+    // create to do list item fields and set equal to each other
     public Item(String desc, String date){
-        this.desc = new SimpleStringProperty(desc);
-        this.date = new SimpleStringProperty(date);
-        this.status = new CheckBox();
+        this.desc = new SimpleStringProperty(desc); // set desc to the input desc string
+        this.date = new SimpleStringProperty(date); // set date to the input date string
+        this.status = new CheckBox();               // create checkBox field
     }
 
+    // create getters and setters for the specific item fields
     public String getDesc(){
         return desc.get();
     }

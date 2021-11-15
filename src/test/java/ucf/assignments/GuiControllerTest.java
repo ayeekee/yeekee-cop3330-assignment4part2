@@ -1,6 +1,11 @@
 package ucf.assignments;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 class GuiControllerTest {
+
+    ObservableList<Item> testList = FXCollections.observableArrayList();
 
     @org.junit.jupiter.api.Test
     void addList() {

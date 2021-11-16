@@ -299,8 +299,6 @@ public class GuiController implements Initializable {
             System.out.println("Your description must be between 1 and 256 characters or your date must be in yyyy-mm-dd format!");
         }
 
-        System.out.println(list);
-
         return list;
     }
 

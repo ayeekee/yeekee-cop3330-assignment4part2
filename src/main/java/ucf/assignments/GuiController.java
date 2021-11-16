@@ -27,6 +27,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 // class controls gui for user interaction with buttons
@@ -34,7 +35,7 @@ public class GuiController implements Initializable {
 
     // create objects for gui interaction
     @FXML private DatePicker datePicker; // date selector
-    @FXML private TextArea descBox; // textfield for user to enter description
+    @FXML private TextArea descBox; // text field for user to enter description
     @FXML private TableView<Item> tableOfList; // table to display to do list items
     @FXML private TableColumn<Item, String> descCol; // description column of table
     @FXML private TableColumn<Item, String> dateCol; // date column of table
@@ -43,6 +44,7 @@ public class GuiController implements Initializable {
     // create observable arraylist objects
     public ObservableList<Item> tdList = FXCollections.observableArrayList(); // main list
     public ObservableList<Item> loadList = FXCollections.observableArrayList(); // temp list when loading in data from file
+    public ArrayList<Item> tempList;
 
     // create file chooser for user to save and load lists
     public FileChooser fileChooser = new FileChooser();
@@ -284,4 +286,23 @@ public class GuiController implements Initializable {
         window.setScene(scene);
         window.showAndWait();
     }
+
+    public static ArrayList<Item> addItem(String desc, String date) {
+        ArrayList<Item> list = new ArrayList<>();
+
+        // make sure description is between 1 and 256 characters
+        if(desc.length() >= 1 && desc.length() <= 256){
+            Item item = new Item(desc, date); // create new item with given input
+            list.add(item);
+        }
+        else { // if not, display error message
+            System.out.println("Your description must be between 1 and 256 characters or your date must be in yyyy-mm-dd format!");
+        }
+
+        System.out.println(list);
+
+        return list;
+    }
+
+
 }

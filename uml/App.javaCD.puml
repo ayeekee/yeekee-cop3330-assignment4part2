@@ -38,7 +38,7 @@ package ucf.assignments{
 
         +FileChooser fileChooser
 
-        +void initialize(URL location, ResourceBundle resources)
+        +initialize(URL location, ResourceBundle resources)
         addItem(ActionEvent event)
         deleteItem(ActionEvent event)
         clearList(ActionEvent event)

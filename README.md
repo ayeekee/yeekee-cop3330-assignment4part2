@@ -1,6 +1,6 @@
 # yeekee-cop3330-assignment4part2
 
-Welcome to the To-Do List Maker!
+Welcome to the To-Do List Maker! Made by Alyssa Yee-Kee (:
 
 ## Functions
 Learn how use the functions of the To-Do List Maker to manage your tasks!

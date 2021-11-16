@@ -28,6 +28,8 @@ class TestCodeTest {
     @Test
     void clearList() {
         // assertEquals that the arraylist.size() is 0
+        test = TestCode.clearList(test);
+        assertEquals(0, test.size());
     }
 
     // test that a desc and date were edited

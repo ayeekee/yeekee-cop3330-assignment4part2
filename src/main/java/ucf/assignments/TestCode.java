@@ -13,7 +13,6 @@ public class TestCode {
 
     // method adds a new to do list item to table
     public static ArrayList<Item> addItem(String desc, String date) {
-
         ArrayList<Item> tdList = new ArrayList<>();
 
         // make sure description is between 1 and 256 characters
@@ -131,7 +130,6 @@ public class TestCode {
 
     // method allows user to open a to do list they have previously saved
     static void loadList(String path, ArrayList<Item> list) throws IOException {
-
         File file = new File(path);
 
         ArrayList<Item> loadList = new ArrayList<>();

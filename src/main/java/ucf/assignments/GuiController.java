@@ -286,21 +286,4 @@ public class GuiController implements Initializable {
         window.setScene(scene);
         window.showAndWait();
     }
-
-    public static ArrayList<Item> addItem(String desc, String date) {
-        ArrayList<Item> list = new ArrayList<>();
-
-        // make sure description is between 1 and 256 characters
-        if(desc.length() >= 1 && desc.length() <= 256){
-            Item item = new Item(desc, date); // create new item with given input
-            list.add(item);
-        }
-        else { // if not, display error message
-            System.out.println("Your description must be between 1 and 256 characters or your date must be in yyyy-mm-dd format!");
-        }
-
-        return list;
-    }
-
-
 }

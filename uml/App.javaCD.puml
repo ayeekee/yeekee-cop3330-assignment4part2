@@ -63,11 +63,6 @@ package ucf.assignments{
         +{static}displayIncomplete(ArrayList<Item> list)
         +{static}saveList(String path, ArrayList<Item> list)
         +{static}loadList(String path, ArrayList<Item> list)
-
-
-
-
-
     }
 }
 @enduml

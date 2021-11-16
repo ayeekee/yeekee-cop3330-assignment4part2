@@ -131,6 +131,7 @@ public class TestCode {
 
     // method allows user to open a to do list they have previously saved
     static void loadList(String path, ArrayList<Item> list) throws IOException {
+
         File file = new File(path);
 
         ArrayList<Item> loadList = new ArrayList<>();

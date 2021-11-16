@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestCodeTest {
+
     ArrayList<Item> test = new ArrayList<>();
 
     // test that item was added to arraylist successfully

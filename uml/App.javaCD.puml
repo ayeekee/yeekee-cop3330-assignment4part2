@@ -52,5 +52,22 @@ package ucf.assignments{
         +dateValidator(String date)
         +AlertDisplay(String title, String message)
     }
+
+    +Class TestCode{
+        +{static}addItem(String desc, String date)
+        +{static}deleteItem(Integer index, ArrayList<Item> list)
+        +{static}clearList(ArrayList<Item> list)
+        +{static}editItem(String original, String edited)
+        +{static}displayAll(ArrayList<Item> list)
+        +{static}displayComp(ArrayList<Item> list)
+        +{static}displayIncomplete(ArrayList<Item> list)
+        +{static}saveList(String path, ArrayList<Item> list)
+        +{static}loadList(String path, ArrayList<Item> list)
+
+
+
+
+
+    }
 }
 @enduml

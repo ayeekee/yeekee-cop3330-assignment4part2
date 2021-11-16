@@ -3,6 +3,7 @@ package ucf.assignments;
 import javafx.scene.control.CheckBox;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*  Class takes functions from GuiController and edits them to have return values that are testable; manipulates GuiController functions
@@ -42,48 +43,59 @@ public class TestCode {
     }
 
     // method allows user to edit description and date input
-    void editItem(String original, String edited) {
+    public static String editItem(String original, String edited) {
 
         String newThing = "";
 
         newThing.replaceAll(original, edited);
 
+        return newThing;
     }
 
     // method displays all to do list items regardless of completion
-    int displayAll(ArrayList<Item> list) {
+    public static int displayAll(ArrayList<Item> list) {
         return list.size();
     }
 
     // method displays to do list items that are complete
-    void displayComp(ArrayList<Item> list) {
+    public static int displayComp(ArrayList<Item> list) {
         ArrayList<Item> completeList = new ArrayList<>();
         ArrayList<Item> displayList = new ArrayList<>();
+
+        int count = 0;
 
         for(Item temp : list){
             if(temp.getStatus().isSelected()){ // if checkBox is selected append to temp arraylist
                 completeList.add(temp);
+                count++;
             }
         }
 
         displayList = completeList;
+
+        return count;
     }
 
     // method displays to do list items that are incomplete
-    void displayIncomplete(ArrayList<Item> list) {
+    public static int displayIncomplete(ArrayList<Item> list) {
         ArrayList<Item> incompleteList = new ArrayList<>(); // create temp arraylist for incomplete items
         ArrayList<Item> displayList = new ArrayList<>();
+
+        int count = 0;
 
         for(Item temp : list){
             if(!temp.getStatus().isSelected()){ // if checkBox is not selected, append to temp arraylist
                 incompleteList.add(temp);
+                count++;
             }
         }
         displayList = incompleteList;
+
+        return count;
     }
 
     // method allows user to save their to do list to their hard drive
-    static File saveList(String path, ArrayList<Item> list) throws Exception {
+    public static File saveList(String path, ArrayList<Item> list) throws Exception {
         File file = new File(path);
 
         try{

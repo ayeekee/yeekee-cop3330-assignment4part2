@@ -70,11 +70,8 @@ class TestCodeTest {
         assertEquals(false, file.exists());
     }
 
-    /*// test that file was able to be read
+    // test that file was able to be read
     @Test
     void loadList() throws IOException {
-        File file = new File(TestCode.loadList("C://temp//testFile", test));
-
-        assertEquals(false, file.exists());
-    }*/
+    }
 }
